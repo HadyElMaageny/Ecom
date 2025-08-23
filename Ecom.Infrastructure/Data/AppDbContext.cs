@@ -1,5 +1,6 @@
 using System.Reflection;
 using Ecom.Core.Entities.Product;
+using Ecom.Infrastructure.Data.Config;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecom.Infrastructure.Data;
