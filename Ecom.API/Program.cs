@@ -34,6 +34,7 @@ public class Program
                 c.RoutePrefix = string.Empty;
             });
         }
+        app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
         app.UseHttpsRedirection();
 
