@@ -13,13 +13,36 @@ public class ImageManagementService : IImageManagementService
         _fileProvider = fileProvider;
     }
 
-    public Task<List<string>> AddImageAsync(IFormFileCollection files, string src)
+    public async Task<List<string>> AddImageAsync(IFormFileCollection files, string src)
     {
-        throw new NotImplementedException();
+        List<string> saveImagePaths = new List<string>();
+        var imageDirectory = Path.Combine("wwwroot", "Images", src);
+
+        if (!Directory.Exists(imageDirectory))
+            Directory.CreateDirectory(imageDirectory);
+
+        foreach (var file in files)
+        {
+            var imageName = file.FileName;
+            var imageSrc = $"/Images/{src}/{imageName}";
+            var root = Path.Combine(imageDirectory, imageName);
+
+            using (FileStream fileStream = new FileStream(root, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            saveImagePaths.Add(imageSrc);
+        }
+
+        return saveImagePaths;
     }
 
-    public Task DeleteImageAsync(string src)
+    public void DeleteImageAsync(string src)
     {
-        throw new NotImplementedException();
+        var info = _fileProvider.GetFileInfo(src);
+
+        var root = info.PhysicalPath;
+        File.Delete(root);
     }
 }

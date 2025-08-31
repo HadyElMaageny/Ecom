@@ -1,20 +1,20 @@
+using AutoMapper;
 using Ecom.Core.Interfaces;
+using Ecom.Core.Services;
 using Ecom.Infrastructure.Data;
 
 namespace Ecom.Infrastructure.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly AppDbContext _context;
     public ICategoryRepository CategoryRepository { get; }
     public IPhotoRepository PhotoRepository { get; }
     public IProductRepository ProductRepository { get; }
 
-    public UnitOfWork(AppDbContext  context)
+    public UnitOfWork(AppDbContext  context, IMapper mapper, IImageManagementService imageManagementService)
     {
-        _context = context;
-        CategoryRepository = new CategoryRepository(_context);
-        PhotoRepository = new PhotoRepository(_context);
-        ProductRepository = new ProductRepository(_context);
+        CategoryRepository = new CategoryRepository(context);
+        PhotoRepository = new PhotoRepository(context);
+        ProductRepository = new ProductRepository(context, mapper, imageManagementService);
     }
 }

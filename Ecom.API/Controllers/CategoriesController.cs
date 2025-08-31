@@ -65,14 +65,14 @@ namespace Ecom.API.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, UpdateCategoryDto updateCategoryDto)
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateCategoryDto updateCategoryDto)
         {
             try
             {
-                var existing = await _work.CategoryRepository.GetByIdAsync(id);
+                var existing = await _work.CategoryRepository.GetByIdAsync(updateCategoryDto.Id);
                 if (existing == null)
-                    return NotFound(ResponseAPI<Category>.NotFound($"Category not found with id {id}"));
+                    return NotFound(ResponseAPI<Category>.NotFound($"Category not found with id {updateCategoryDto.Id}"));
 
                 _mapper.Map(updateCategoryDto, existing); // Update existing entity
                 await _work.CategoryRepository.UpdateAsync(existing);

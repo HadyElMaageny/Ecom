@@ -3,9 +3,7 @@ using Ecom.API.Helper;
 using Ecom.Core.DTO;
 using Ecom.Core.Entities.Product;
 using Ecom.Core.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Scripting.Hosting;
 
 namespace Ecom.API.Controllers
 {
@@ -26,9 +24,9 @@ namespace Ecom.API.Controllers
                     return NotFound(ResponseAPI<IEnumerable<Product>>.NotFound("No products found"));
                 return Ok(ResponseAPI<IEnumerable<ProductDto>>.Ok(result));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ResponseAPI<IEnumerable<Product>>.Error(e.Message));
+                return BadRequest(ResponseAPI<IEnumerable<Product>>.Error(ex.Message));
             }
         }
 
@@ -43,9 +41,40 @@ namespace Ecom.API.Controllers
                 var result = _mapper.Map<ProductDto>(product);
                 return Ok(ResponseAPI<ProductDto>.Ok(result));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ResponseAPI<IEnumerable<Product>>.Error(e.Message));
+                return BadRequest(ResponseAPI<IEnumerable<Product>>.Error(ex.Message));
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Store(AddProductDto addProductDto)
+        {
+            try
+            {
+                await _work.ProductRepository.AddAsync(addProductDto);
+                return Ok(ResponseAPI<ProductDto>.Ok());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ResponseAPI<IEnumerable<Product>>.Error(ex.Message));
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateProductDto updateProductDto)
+        {
+            try
+            {
+                var existing = await _work.ProductRepository.GetByIdAsync(updateProductDto.Id);
+                if (existing == null)
+                    return NotFound(ResponseAPI<Product>.NotFound($"Product not found with id {updateProductDto.Id}"));
+                await _work.ProductRepository.UpdateAsync(updateProductDto);
+                return Ok(ResponseAPI<ProductDto>.Ok());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ResponseAPI<IEnumerable<Product>>.Error(ex.Message));
             }
         }
     }
