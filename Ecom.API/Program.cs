@@ -1,3 +1,4 @@
+using Ecom.API.Middleware;
 using Ecom.Infrastructure;
 
 namespace Ecom.API;
@@ -34,6 +35,7 @@ public class Program
                 c.RoutePrefix = string.Empty;
             });
         }
+        app.UseMiddleware<ExceptionMiddleware>();
         app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
         app.UseHttpsRedirection();
