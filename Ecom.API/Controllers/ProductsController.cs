@@ -77,5 +77,22 @@ namespace Ecom.API.Controllers
                 return BadRequest(ResponseAPI<IEnumerable<Product>>.Error(ex.Message));
             }
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Destroy(int id)
+        {
+            try
+            {
+                var existing = await _work.ProductRepository.GetByIdAsync(id, x => x.Category);
+                if (existing == null)
+                    return NotFound(ResponseAPI<Product>.NotFound($"Product not found with id {id}"));
+                await _work.ProductRepository.DeleteAsync(existing);
+                return Ok(ResponseAPI<ProductDto>.Ok());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ResponseAPI<IEnumerable<Product>>.Error(ex.Message));
+            }
+        }
     }
 }

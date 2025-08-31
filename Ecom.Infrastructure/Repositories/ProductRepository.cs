@@ -67,4 +67,15 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task DeleteAsync(Product product)
+    {
+        var photoes = await _context.Photos.Where(p => p.ProductId == product.Id).ToListAsync();
+        foreach (var photo in photoes)
+        {
+            _imageManagementService.DeleteImageAsync(photo.ImageName);
+        }
+        _context.Products.Remove(product);
+        await _context.SaveChangesAsync();
+    }
 }
