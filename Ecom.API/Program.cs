@@ -10,11 +10,13 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
         builder.Services.InfrastructureConfiguration(builder.Configuration);
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
+        
+        // Register MemoryCache
+        builder.Services.AddMemoryCache();
         
         // ✅ Register Swagger services
         builder.Services.AddEndpointsApiExplorer();
