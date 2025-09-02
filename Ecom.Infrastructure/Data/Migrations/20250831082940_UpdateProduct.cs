@@ -11,7 +11,7 @@ namespace Ecom.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "Price",
+                name: "NewPrice",
                 table: "Products",
                 newName: "OldPrice");
 
@@ -103,76 +103,76 @@ namespace Ecom.Infrastructure.Data.Migrations
             migrationBuilder.RenameColumn(
                 name: "OldPrice",
                 table: "Products",
-                newName: "Price");
+                newName: "NewPrice");
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "Price",
+                column: "NewPrice",
                 value: 999.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 2,
-                column: "Price",
+                column: "NewPrice",
                 value: 899.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 3,
-                column: "Price",
+                column: "NewPrice",
                 value: 39.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 4,
-                column: "Price",
+                column: "NewPrice",
                 value: 12.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 5,
-                column: "Price",
+                column: "NewPrice",
                 value: 249.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 6,
-                column: "Price",
+                column: "NewPrice",
                 value: 29.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 7,
-                column: "Price",
+                column: "NewPrice",
                 value: 24.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 8,
-                column: "Price",
+                column: "NewPrice",
                 value: 49.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 9,
-                column: "Price",
+                column: "NewPrice",
                 value: 14.99m);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 10,
-                column: "Price",
+                column: "NewPrice",
                 value: 34.99m);
         }
     }

@@ -3,6 +3,7 @@ using Ecom.Core.DTO;
 using Ecom.Core.Entities.Product;
 using Ecom.Core.Interfaces;
 using Ecom.Core.Services;
+using Ecom.Core.Sharing;
 using Ecom.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,30 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         _imageManagementService = imageManagementService;
     }
 
+    public async Task<IEnumerable<ProductDto>> GetAllAsync(ProductParams productParams)
+    {
+        var query = _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.Photos)
+            .AsNoTracking();
+
+        if (productParams.CategoryId != null)
+            query = query.Where(p => p.CategoryId == productParams.CategoryId);
+
+        if (!string.IsNullOrEmpty(productParams.Sort))
+        {
+            query = productParams.Sort switch
+            {
+                "PriceAsc" => query.OrderBy(q => q.NewPrice),
+                "PriceDesc" => query.OrderByDescending(q => q.NewPrice),
+                _ => query.OrderBy(q => q.Name)
+            };
+        }
+
+        query = query.Skip((productParams.PageNumber - 1) * productParams.PageSize).Take(productParams.PageSize);
+        var result = _mapper.Map<List<ProductDto>>(query);
+        return result;
+    }
 
     public async Task<bool> AddAsync(AddProductDto addProductDto)
     {
@@ -75,6 +100,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         {
             _imageManagementService.DeleteImageAsync(photo.ImageName);
         }
+
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
     }

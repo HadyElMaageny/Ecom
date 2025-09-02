@@ -87,7 +87,7 @@ namespace Ecom.Infrastructure.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "Description", "Name", "Price" },
+                columns: new[] { "Id", "CategoryId", "Description", "Name", "NewPrice" },
                 values: new object[,]
                 {
                     { 1, 1, "Latest Apple smartphone with A17 Pro chip and titanium design", "iPhone 15 Pro", 999.99m },
