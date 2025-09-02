@@ -8,10 +8,10 @@ public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IHostEnvironment _environment;
-    private readonly MemoryCache _memoryCache;
+    private readonly IMemoryCache _memoryCache;
     private readonly TimeSpan _rateLimitWindow = TimeSpan.FromSeconds(30);
 
-    public ExceptionMiddleware(RequestDelegate next, IHostEnvironment environment, MemoryCache memoryCache)
+    public ExceptionMiddleware(RequestDelegate next, IHostEnvironment environment, IMemoryCache memoryCache)
     {
         _next = next;
         _environment = environment;
@@ -22,6 +22,7 @@ public class ExceptionMiddleware
     {
         try
         {
+            ApplySecurity(context);
             if (IsRequestAllowed(context) == false)
             {
                 context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
@@ -82,5 +83,12 @@ public class ExceptionMiddleware
             _memoryCache.Set(cacheKey, newEntry, _rateLimitWindow);
             return true;
         }
+    }
+
+    private void ApplySecurity(HttpContext context)
+    {
+        context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+        context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+        context.Response.Headers["X-Frame-Options"] = "Deny";
     }
 }
