@@ -22,7 +22,13 @@ namespace Ecom.API.Controllers
                 var products = await _work.ProductRepository.GetAllAsync(productParams);
                 if (products is null)
                     return NotFound(ResponseAPI<IEnumerable<Product>>.NotFound("No products found"));
-                return Ok(ResponseAPI<IEnumerable<ProductDto>>.Ok(products));
+                var totalCount = await _work.ProductRepository.CountAsync();
+                return Ok(ResponseAPI<Pagination<ProductDto>>.Ok(new Pagination<ProductDto>(
+                    productParams.PageNumber,
+                    productParams.PageSize,
+                    totalCount,
+                    products
+                )));
             }
             catch (Exception ex)
             {

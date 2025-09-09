@@ -9,15 +9,27 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", policyBuilder =>
+            {
+                policyBuilder
+                    .WithOrigins("https://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .AllowAnyHeader();
+            });
+        });
+
         // Add services to the container.
         builder.Services.InfrastructureConfiguration(builder.Configuration);
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
-        
+
         // Register MemoryCache
         builder.Services.AddMemoryCache();
-        
+
         // ✅ Register Swagger services
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -37,6 +49,8 @@ public class Program
                 c.RoutePrefix = string.Empty;
             });
         }
+        
+        app.UseCors("CorsPolicy");
         app.UseMiddleware<ExceptionMiddleware>();
         app.UseStatusCodePagesWithReExecute("/errors/{0}");
 

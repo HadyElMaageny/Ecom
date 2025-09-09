@@ -33,6 +33,16 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         if (productParams.CategoryId != null)
             query = query.Where(p => p.CategoryId == productParams.CategoryId);
 
+        if (!string.IsNullOrEmpty(productParams.Search))
+        {
+            var searchWords = productParams.Search.Split(' ');
+            query = query.Where(p => searchWords.Any(word =>
+                p.Name.ToLower().Contains(word.ToLower()) ||
+                p.Description.ToLower().Contains(word.ToLower())
+            ));
+        }
+
+
         if (!string.IsNullOrEmpty(productParams.Sort))
         {
             query = productParams.Sort switch
@@ -43,8 +53,11 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             };
         }
 
-        query = query.Skip((productParams.PageNumber - 1) * productParams.PageSize).Take(productParams.PageSize);
-        var result = _mapper.Map<List<ProductDto>>(query);
+        var products = await query
+            .Skip((productParams.PageNumber - 1) * productParams.PageSize)
+            .Take(productParams.PageSize)
+            .ToListAsync();
+        var result = _mapper.Map<List<ProductDto>>(products);
         return result;
     }
 

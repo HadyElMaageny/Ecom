@@ -2,9 +2,10 @@
 
 public class ProductParams
 {
-    public string Sort { get; set; }
+    public string? Sort { get; set; }
     public int? CategoryId { get; set; }
-    public int MaxPageSize { get; set; } = 6;
+    public string? Search { get; set; }
+    private int MaxPageSize { get; set; } = 6;
     private int _pageSize = 3;
 
     public int PageSize
