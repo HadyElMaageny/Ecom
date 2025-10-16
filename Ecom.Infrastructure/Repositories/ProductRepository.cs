@@ -23,7 +23,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         _imageManagementService = imageManagementService;
     }
 
-    public async Task<IEnumerable<ProductDto>> GetAllAsync(ProductParams productParams)
+    public async Task<ReturnProductDto> GetAllAsync(ProductParams productParams)
     {
         var query = _context.Products
             .Include(p => p.Category)
@@ -53,12 +53,15 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             };
         }
 
+        ReturnProductDto returnProductDto = new();
+        returnProductDto.TotalCount = query.Count();
+
         var products = await query
             .Skip((productParams.PageNumber - 1) * productParams.PageSize)
             .Take(productParams.PageSize)
             .ToListAsync();
-        var result = _mapper.Map<List<ProductDto>>(products);
-        return result;
+        returnProductDto.Products = _mapper.Map<List<ProductDto>>(products);
+        return returnProductDto;
     }
 
     public async Task<bool> AddAsync(AddProductDto addProductDto)

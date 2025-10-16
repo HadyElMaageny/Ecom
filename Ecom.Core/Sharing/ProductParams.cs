@@ -6,7 +6,7 @@ public class ProductParams
     public int? CategoryId { get; set; }
     public string? Search { get; set; }
     private int MaxPageSize { get; set; } = 6;
-    private int _pageSize = 3;
+    private int _pageSize = 2;
 
     public int PageSize
     {

@@ -71,7 +71,7 @@ public class ExceptionMiddleware
         if (entry?.Timestamp.Add(_rateLimitWindow) > now)
         {
             // inside same window
-            if (entry.Count >= 8) return false; // deny
+            if (entry.Count >= 80) return false; // deny
             entry.Count++; // increment
             _memoryCache.Set(cacheKey, entry, _rateLimitWindow); // store updated entry
             return true;

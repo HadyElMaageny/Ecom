@@ -14,7 +14,7 @@ public class Program
             options.AddPolicy("CorsPolicy", policyBuilder =>
             {
                 policyBuilder
-                    .WithOrigins("https://localhost:4200")
+                    .WithOrigins("http://localhost:4200")
                     .AllowAnyMethod()
                     .AllowCredentials()
                     .AllowAnyHeader();
@@ -57,8 +57,8 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
-
+        
+        app.UseStaticFiles();
         app.MapControllers();
 
         app.Run();
