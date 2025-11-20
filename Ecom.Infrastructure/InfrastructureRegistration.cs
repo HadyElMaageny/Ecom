@@ -20,6 +20,8 @@ public static class InfrastructureRegistration
         // services.AddScoped<IProductRepository, ProductRepository>();
         // services.AddScoped<IPhotoRepository, PhotoRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        // register email sender
+        services.AddScoped<IEmailService, EmailService>();
         services.AddSingleton<IImageManagementService, ImageManagementService>();
         services.AddSingleton<IFileProvider>(
             new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
