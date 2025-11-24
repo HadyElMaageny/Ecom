@@ -38,7 +38,5 @@ public class EmailService(IConfiguration configuration) : IEmailService
                 smtp.Dispose();
             }
         }
-
-        // throw new NotImplementedException();
     }
 }
