@@ -32,8 +32,8 @@ public class AuthRepository(
         if (result.Succeeded is not true)
             return result.Errors.ToList()[0].Description;
         // Send Active email
-        string code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-        await SendEmail(user.Email, code, "active", "ActiveEmail", "Please activate your account");
+        string token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        await SendEmail(user.Email, token, "active", "ActiveEmail", "Please activate your account");
         return "Success";
     }
 
@@ -42,5 +42,25 @@ public class AuthRepository(
         var result = new EmailDto(email, "hadymaageny@gmail.com", subject,
             EmailStringBody.Send(email, code, component, message));
         await emailService.SendEmail(result);
+    }
+
+    public async Task<string?> LoginAsync(LoginDto? loginDto)
+    {
+        if (loginDto == null) return null;
+        var findUser = await userManager.FindByEmailAsync(loginDto.Email);
+        if (!findUser.EmailConfirmed)
+        {
+            // Generate new confirmation token
+            string token = await userManager.GenerateEmailConfirmationTokenAsync(findUser);
+            // Send confirmation email again
+            await SendEmail(findUser.Email, token, "active", "ActiveEmail", "Please activate your account");
+            return "Please confirm your email, we sent you a new activation link";
+        }
+
+        var result = await _signInManager.CheckPasswordSignInAsync(findUser, loginDto.Password, true);
+
+        if (result.Succeeded)
+            return "done";
+        return "Please check your email and password, something went wrong";
     }
 }
