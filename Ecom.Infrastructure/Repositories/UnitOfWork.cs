@@ -14,16 +14,18 @@ public class UnitOfWork : IUnitOfWork
     public IProductRepository ProductRepository { get; }
     private readonly IEmailService _emailService;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly IGenerateToken _token;
     public IAuth Auth { get; }
 
     public UnitOfWork(AppDbContext context, IMapper mapper, IImageManagementService imageManagementService,
-        UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService)
+        UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, IGenerateToken token)
     {
         _signInManager = signInManager;
         _emailService = emailService;
+        _token = token;
         CategoryRepository = new CategoryRepository(context);
         PhotoRepository = new PhotoRepository(context);
         ProductRepository = new ProductRepository(context, mapper, imageManagementService);
-        Auth = new AuthRepository(userManager, emailService, signInManager);
+        Auth = new AuthRepository(userManager, emailService, signInManager, _token);
     }
 }

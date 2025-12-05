@@ -17,7 +17,7 @@ public class GenerateToken : IGenerateToken
         _configuration = configuration;
     }
 
-    public async Task<string> GetAndCreateToken(AppUser user)
+    public string GetAndCreateToken(AppUser user)
     {
         var claims = new List<Claim>
         {
