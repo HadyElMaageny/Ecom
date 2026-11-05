@@ -237,7 +237,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("NewPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -253,7 +253,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 1,
                             Description = "Latest Apple smartphone with A17 Pro chip and titanium design",
                             Name = "iPhone 15 Pro",
-                            Price = 999.99m
+                            NewPrice = 999.99m
                         },
                         new
                         {
@@ -261,7 +261,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 1,
                             Description = "55-inch 4K QLED Smart TV with Quantum HDR",
                             Name = "Samsung QLED 4K TV",
-                            Price = 899.99m
+                            NewPrice = 899.99m
                         },
                         new
                         {
@@ -269,7 +269,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 2,
                             Description = "100% Cotton casual shirt for men, available in multiple colors",
                             Name = "Men's Casual Shirt",
-                            Price = 39.99m
+                            NewPrice = 39.99m
                         },
                         new
                         {
@@ -277,7 +277,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 3,
                             Description = "Classic novel by F. Scott Fitzgerald",
                             Name = "The Great Gatsby",
-                            Price = 12.99m
+                            NewPrice = 12.99m
                         },
                         new
                         {
@@ -285,7 +285,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 4,
                             Description = "Modern office desk with built-in cable management",
                             Name = "Office Desk",
-                            Price = 249.99m
+                            NewPrice = 249.99m
                         },
                         new
                         {
@@ -293,7 +293,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 5,
                             Description = "Eco-friendly yoga mat with non-slip surface",
                             Name = "Yoga Mat",
-                            Price = 29.99m
+                            NewPrice = 29.99m
                         },
                         new
                         {
@@ -301,7 +301,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 6,
                             Description = "Anti-aging facial serum with vitamin C and hyaluronic acid",
                             Name = "Vitamin C Serum",
-                            Price = 24.99m
+                            NewPrice = 24.99m
                         },
                         new
                         {
@@ -309,7 +309,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 7,
                             Description = "Creative brick box with 790 pieces for endless building possibilities",
                             Name = "LEGO Classic Set",
-                            Price = 49.99m
+                            NewPrice = 49.99m
                         },
                         new
                         {
@@ -317,7 +317,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 8,
                             Description = "Premium organic Arabica coffee beans, medium roast",
                             Name = "Organic Coffee Beans",
-                            Price = 14.99m
+                            NewPrice = 14.99m
                         },
                         new
                         {
@@ -325,7 +325,7 @@ namespace Ecom.Infrastructure.Data.Migrations
                             CategoryId = 10,
                             Description = "Universal smartphone car holder with wireless charging",
                             Name = "Car Phone Mount",
-                            Price = 34.99m
+                            NewPrice = 34.99m
                         });
                 });
 

@@ -11,6 +11,7 @@ public record LoginDto
 public record RegisterDto : LoginDto
 {
     public string UserName { get; set; } = string.Empty;
+    public string DisplayName { get; set; } = string.Empty;
 }
 
 public record ResetPasswordDto: LoginDto

@@ -28,7 +28,8 @@ public class AuthRepository(
         AppUser user = new AppUser()
         {
             Email = registerDto.Email,
-            UserName = registerDto.UserName
+            UserName = registerDto.UserName,
+            DisplayName = registerDto.DisplayName,
         };
         var result = await userManager.CreateAsync(user, registerDto.Password);
         if (result.Succeeded is not true)
@@ -50,6 +51,8 @@ public class AuthRepository(
     {
         if (loginDto == null) return null;
         var findUser = await userManager.FindByEmailAsync(loginDto.Email);
+        if (findUser is null)
+            return "Please check your email and password, something went wrong";
         if (!findUser.EmailConfirmed)
         {
             // Generate new confirmation token
@@ -88,7 +91,7 @@ public class AuthRepository(
             return null;
 
         var result = await userManager.ResetPasswordAsync(findUser, resetPasswordDto.Token, resetPasswordDto.Password);
-        if(result.Succeeded)
+        if (result.Succeeded)
             return "Password Changed Successfully";
         return result.Errors.First().Description;
     }
@@ -96,16 +99,15 @@ public class AuthRepository(
     public async Task<bool> ActivateAccount(ActivateAccountDto activateAccountDto)
     {
         var findUser = await userManager.FindByEmailAsync(activateAccountDto.Email);
-        if(findUser is null)
+        if (findUser is null)
             return false;
         var result = await userManager.ConfirmEmailAsync(findUser, activateAccountDto.Token);
 
         if (result.Succeeded)
             return true;
-        
+
         string token = await userManager.GenerateEmailConfirmationTokenAsync(findUser);
         await SendEmail(findUser.Email, token, "active", "ActiveEmail", "Please activate your account");
         return false;
-
     }
 }

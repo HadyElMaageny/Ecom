@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 
 namespace Ecom.Infrastructure;
 
@@ -27,6 +28,13 @@ public static class InfrastructureRegistration
         // services.AddScoped<IProductRepository, ProductRepository>();
         // services.AddScoped<IPhotoRepository, PhotoRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        //Apply Redis Connection
+        services.AddSingleton<IConnectionMultiplexer>(i =>
+        {
+            var config = ConfigurationOptions.Parse(configuration.GetConnectionString("redis"));
+            return ConnectionMultiplexer.Connect(config);
+        });
         // register email sender
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IGenerateToken, GenerateToken>();
@@ -38,50 +46,51 @@ public static class InfrastructureRegistration
         {
             op.UseSqlServer(configuration.GetConnectionString("EcomDatabase"));
         });
-
+        services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
         services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        }).AddCookie(options =>
+        {
+            options.Cookie.Name = "token";
+            options.Events = new CookieAuthenticationEvents
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(options =>
+                OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return Task.CompletedTask;
+                }
+            };
+        }).AddJwtBearer(options =>
+        {
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
+
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.Cookie.Name = "token";
-                options.Events = new CookieAuthenticationEvents
-                {
-                    OnRedirectToLogin = context =>
-                    {
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        return Task.CompletedTask;
-                    }
-                };
-            }).AddJwtBearer(options =>
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:Secret"]!)),
+
+                ValidateIssuer = true,
+                ValidIssuer = configuration["Token:Issuer"],
+
+                ValidateAudience = false,
+
+                ClockSkew = TimeSpan.Zero
+            };
+
+            options.Events = new JwtBearerEvents
             {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-
-                options.TokenValidationParameters = new TokenValidationParameters
+                OnMessageReceived = context =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:Secret"]!)),
-
-                    ValidateIssuer = true,
-                    ValidIssuer = configuration["Token:Issuer"],
-
-                    ValidateAudience = false,
-                    
-                    ClockSkew = TimeSpan.Zero
-                };
-
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        context.Token = context.Request.Cookies["token"];
-                        return Task.CompletedTask;
-                    }
-                };
-            });
+                    context.Token = context.Request.Cookies["token"];
+                    return Task.CompletedTask;
+                }
+            };
+        });
         return services;
     }
 }

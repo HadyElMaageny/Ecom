@@ -55,7 +55,7 @@ public class Program
         app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
         app.UseHttpsRedirection();
-
+        app.UseAuthentication();
         app.UseAuthorization();
         
         app.UseStaticFiles();

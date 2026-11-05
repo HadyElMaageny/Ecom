@@ -244,85 +244,133 @@ namespace Ecom.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ImageName = "iphone15-1.jpg",
+                            ImageName = "/Images/iPhone 15 Pro/iph1.jfif",
                             ProductId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ImageName = "iphone15-2.jpg",
+                            ImageName = "/Images/iPhone 15 Pro/iph2.jfif",
                             ProductId = 1
                         },
                         new
                         {
                             Id = 3,
-                            ImageName = "samsung-tv-1.jpg",
-                            ProductId = 2
+                            ImageName = "/Images/iPhone 15 Pro/iph3.jfif",
+                            ProductId = 1
                         },
                         new
                         {
                             Id = 4,
-                            ImageName = "shirt-1.jpg",
-                            ProductId = 3
+                            ImageName = "/Images/Samsung QLED 4K TV/tv1.jfif",
+                            ProductId = 2
                         },
                         new
                         {
                             Id = 5,
-                            ImageName = "shirt-2.jpg",
-                            ProductId = 3
+                            ImageName = "/Images/Samsung QLED 4K TV/tv2.jfif",
+                            ProductId = 2
                         },
                         new
                         {
                             Id = 6,
-                            ImageName = "gatsby-1.jpg",
-                            ProductId = 4
+                            ImageName = "/Images/Samsung QLED 4K TV/tv3.jfif",
+                            ProductId = 2
                         },
                         new
                         {
                             Id = 7,
-                            ImageName = "desk-1.jpg",
-                            ProductId = 5
+                            ImageName = "/Images/Men's Casual Shirt/shirt1.jpg",
+                            ProductId = 3
                         },
                         new
                         {
                             Id = 8,
-                            ImageName = "desk-2.jpg",
-                            ProductId = 5
+                            ImageName = "/Images/Men's Casual Shirt/shirt2.jpg",
+                            ProductId = 3
                         },
                         new
                         {
                             Id = 9,
-                            ImageName = "yogamat-1.jpg",
-                            ProductId = 6
+                            ImageName = "/Images/The Great Gatsby/book1.jpg",
+                            ProductId = 4
                         },
                         new
                         {
                             Id = 10,
-                            ImageName = "serum-1.jpg",
-                            ProductId = 7
+                            ImageName = "/Images/The Great Gatsby/book2.jpg",
+                            ProductId = 4
                         },
                         new
                         {
                             Id = 11,
-                            ImageName = "lego-1.jpg",
-                            ProductId = 8
+                            ImageName = "/Images/Office Desk/desk1.jpg",
+                            ProductId = 5
                         },
                         new
                         {
                             Id = 12,
-                            ImageName = "lego-2.jpg",
-                            ProductId = 8
+                            ImageName = "/Images/Office Desk/desk2.jpg",
+                            ProductId = 5
                         },
                         new
                         {
                             Id = 13,
-                            ImageName = "coffee-1.jpg",
-                            ProductId = 9
+                            ImageName = "/Images/Yoga Mat/yoga1.jpg",
+                            ProductId = 6
                         },
                         new
                         {
                             Id = 14,
-                            ImageName = "carmount-1.jpg",
+                            ImageName = "/Images/Yoga Mat/yoga2.jpg",
+                            ProductId = 6
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ImageName = "/Images/Vitamin C Serum/serum1.jpg",
+                            ProductId = 7
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ImageName = "/Images/Vitamin C Serum/serum2.jpg",
+                            ProductId = 7
+                        },
+                        new
+                        {
+                            Id = 17,
+                            ImageName = "/Images/LEGO Classic Set/lego1.jpg",
+                            ProductId = 8
+                        },
+                        new
+                        {
+                            Id = 18,
+                            ImageName = "/Images/LEGO Classic Set/lego2.jpg",
+                            ProductId = 8
+                        },
+                        new
+                        {
+                            Id = 19,
+                            ImageName = "/Images/Organic Coffee Beans/coffee1.jpg",
+                            ProductId = 9
+                        },
+                        new
+                        {
+                            Id = 20,
+                            ImageName = "/Images/Organic Coffee Beans/coffee2.jpg",
+                            ProductId = 9
+                        },
+                        new
+                        {
+                            Id = 21,
+                            ImageName = "/Images/Car Phone Mount/mount1.jpg",
+                            ProductId = 10
+                        },
+                        new
+                        {
+                            Id = 22,
+                            ImageName = "/Images/Car Phone Mount/mount2.jpg",
                             ProductId = 10
                         });
                 });
